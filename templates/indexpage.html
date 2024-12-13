@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wikipedia Page Contributors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #444;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        .stat {
+            text-align: center;
+            padding: 10px;
+            background: #f1f1f1;
+            border-radius: 8px;
+        }
+        .contributors {
+            margin: 20px 0;
+        }
+        .contributor-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .contributor-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+        }
+        .contributor-info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .contributor-info p {
+            margin: 5px 0;
+        }
+        .contributor-info small {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wikipedia Page Contributors</h1>
+        <h2>Earth</h2>
+        <div class="stats">
+            <div class="stat">
+                <h3 id="total-edits">0</h3>
+                <p>Total Edits</p>
+            </div>
+            <div class="stat">
+                <h3 id="total-contributors">0</h3>
+                <p>Contributors</p>
+            </div>
+            <!-- <div class="stat">
+                <h3 id="total-thanks">0</h3>
+                <p>Thank You Notes</p>
+            </div> -->
+        </div>
+        <div class="contributors">
+            <div id="loading" style="text-align: center;">Loading contributors...</div>
+            <div id="contributors-list"></div>
+        </div>
+    </div>
+
+    <script>
+        const contributorsJSON = {
+            "continue": { "rvcontinue": "20241203042820|1260896030", "continue": "||" },
+            "query": {
+                "pages": [
+                    {
+                        "pageid": 9228,
+                        "ns": 0,
+                        "title": "Earth",
+                        "revisions": [
+                            { "user": "Zzzs", "timestamp": "2024-12-10T20:46:30Z", "comment": "Reverted good faith edits." },
+                            { "user": "Cyan Burrito", "timestamp": "2024-12-10T18:00:17Z", "comment": "Added Hyperlink." },
+                            { "user": "Geopersona", "timestamp": "2024-12-07T10:17:38Z", "comment": "The quoted source appears to say 4.0." },
+                            { "user": "Mathglot", "timestamp": "2024-12-05T21:04:21Z", "comment": "Roll back two revisions to standard version." },
+                            { "user": "IznoRepeat", "timestamp": "2024-12-05T20:02:27Z", "comment": "Add WP:TEMPLATECAT." },
+                            { "user": "Remsense", "timestamp": "2024-12-04T16:54:19Z", "comment": "Undid revision 1261162078." },
+                            { "user": "WhatisMars", "timestamp": "2024-12-04T16:19:00Z", "comment": "Let's make an RFC, shall we?" }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        function createContributorCard(contributor) {
+            const card = document.createElement('div');
+            card.className = 'contributor-card';
+            card.innerHTML = `
+                <div class="contributor-info">
+                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(contributor.user)}" alt="${contributor.user}" class="avatar">
+                    <div class="flex-grow-1">
+                        <h3 class="mb-1">${contributor.user}</h3>
+                        <p class="mb-1"><i class="fas fa-comment me-2"></i>${contributor.comment || 'No comment available'}</p>
+                        <small class="text-muted"><i class="fas fa-clock me-1"></i>${new Date(contributor.timestamp).toLocaleString()}</small>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function displayContributors(data) {
+            const container = document.getElementById('contributors-list');
+            container.innerHTML = '';
+
+            const revisions = data.query.pages[0].revisions;
+            revisions.forEach((contributor) => {
+                container.appendChild(createContributorCard(contributor));
+            });
+
+            document.getElementById('total-edits').textContent = revisions.length;
+            document.getElementById('total-contributors').textContent = new Set(revisions.map(c => c.user)).size;
+            document.getElementById('total-thanks').textContent = revisions.length; // Placeholder
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loading').style.display = 'none';
+            displayContributors(contributorsJSON);
+        });
+    </script>
+</body>
+</html>

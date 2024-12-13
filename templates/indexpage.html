@@ -25,30 +25,34 @@
     <style>
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
         min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
       }
       .container {
         max-width: 1000px;
         margin: 40px auto;
       }
       .stats-card {
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-        backdrop-filter: blur(4px);
-        padding: 20px;
-        transition: transform 0.3s ease;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+        backdrop-filter: blur(8px);
+        padding: 25px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.3);
       }
       .stats-card:hover {
         transform: translateY(-5px);
       }
       .contributor-card {
-        background: white;
-        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
         margin-bottom: 15px;
         transition: all 0.3s ease;
-        border: 1px solid rgba(0, 0, 0, 0.1);
       }
       .contributor-card:hover {
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -77,6 +81,7 @@
         font-weight: 600;
         margin-bottom: 30px;
         position: relative;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
       .page-title::after {
         content: "";
@@ -88,6 +93,68 @@
         height: 3px;
         background: #3498db;
         border-radius: 3px;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            rgba(44, 62, 80, 0.7),
+            rgba(52, 152, 219, 0.7)
+          ),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='rgba(255,255,255,0.05)'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.8;
+        z-index: -1;
+        animation: animateBackground 60s linear infinite;
+      }
+      .wiki-symbols {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        overflow: hidden;
+      }
+      .wiki-symbol {
+        position: absolute;
+        color: rgba(255, 255, 255, 0.1);
+        font-family: "Times New Roman", serif;
+        font-size: 2rem;
+        animation: float 15s infinite linear;
+      }
+      @keyframes animateBackground {
+        0% {
+          background-position: 0% 0%;
+        }
+        100% {
+          background-position: 100% 100%;
+        }
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+      .heart-icon {
+        color: #ff0000 !important;
+      }
+      .btn-outline-success:hover .heart-icon {
+        color: white !important;
       }
     </style>
   </head>
@@ -163,6 +230,8 @@
     <!-- AOS Animation Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+    npx create-react-app wikithanks cd wikithanks npx create-react-app
+    wikithanks cd wikithanks
     <script>
       const contributorsJSON = {
         continue: { rvcontinue: "20241203042820|1260896030", continue: "||" },
@@ -218,25 +287,31 @@
         const card = document.createElement("div");
         card.className = "col-md-6";
         card.innerHTML = `
-                <div class="contributor-card p-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(
+            <div class="contributor-card p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(
+                      contributor.user
+                    )}&background=random" 
+                         alt="${contributor.user}" class="avatar">
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">${contributor.user}</h5>
+                        <p class="mb-1 text-muted small">
+                            <i class="fas fa-comment-alt me-2"></i>${
+                              contributor.comment || "No comment available"
+                            }
+                        </p>
+                        <small class="text-primary">
+                            <i class="fas fa-clock me-1"></i>${new Date(
+                              contributor.timestamp
+                            ).toLocaleString()}
+                        </small>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-success" onclick="thankUser('${
                           contributor.user
-                        )}&background=random" 
-                             alt="${contributor.user}" class="avatar">
-                        <div class="flex-grow-1">
-                            <h5 class="mb-1">${contributor.user}</h5>
-                            <p class="mb-1 text-muted small">
-                                <i class="fas fa-comment-alt me-2"></i>${
-                                  contributor.comment || "No comment available"
-                                }
-                            </p>
-                            <small class="text-primary">
-                                <i class="fas fa-clock me-1"></i>${new Date(
-                                  contributor.timestamp
-                                ).toLocaleString()}
-                            </small>
-                        </div>
+                        }')">
+                            <i class="fas fa-heart heart-icon"></i>
+                        </button>
                         <button class="btn btn-sm btn-outline-primary" onclick="showUserDetails('${
                           contributor.user
                         }')">
@@ -244,7 +319,8 @@
                         </button>
                     </div>
                 </div>
-            `;
+            </div>
+        `;
         return card;
       }
 
@@ -288,6 +364,33 @@
         AOS.init(); // Initialize AOS
         document.getElementById("loading").style.display = "none";
         displayContributors(contributorsJSON);
+      });
+
+      function thankUser(username) {
+        // You can implement the thank you functionality here
+        alert(`Thank you message sent to ${username}!`);
+      }
+    </script>
+    <script>
+      function createWikiSymbols() {
+        const container = document.createElement("div");
+        container.className = "wiki-symbols";
+
+        for (let i = 0; i < 20; i++) {
+          const symbol = document.createElement("div");
+          symbol.className = "wiki-symbol";
+          symbol.textContent = "W";
+          symbol.style.left = `${Math.random() * 100}%`;
+          symbol.style.animationDelay = `${Math.random() * 15}s`;
+          container.appendChild(symbol);
+        }
+
+        document.body.appendChild(container);
+      }
+
+      // Call this function when the document is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        createWikiSymbols();
       });
     </script>
   </body>

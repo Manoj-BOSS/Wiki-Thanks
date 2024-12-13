@@ -33,6 +33,7 @@
       .container {
         max-width: 1000px;
         margin: 40px auto;
+        padding: 20px;
       }
       .stats-card {
         background: rgba(255, 255, 255, 0.95);
@@ -42,6 +43,7 @@
         padding: 25px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border: 1px solid rgba(255, 255, 255, 0.3);
+        margin-bottom: 20px;
       }
       .stats-card:hover {
         transform: translateY(-5px);
@@ -77,10 +79,11 @@
         letter-spacing: 1px;
       }
       .page-title {
-        color: #2c3e50;
-        font-weight: 600;
+        color: #ffffff;
+        font-weight: 700;
         margin-bottom: 30px;
         position: relative;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
       }
       .page-title::after {
@@ -156,6 +159,89 @@
       .btn-outline-success:hover .heart-icon {
         color: white !important;
       }
+      /* Update dropdown button styling for better visibility */
+      .dropdown .btn {
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid #3498db;
+        color: #2c3e50;
+        font-weight: 600;
+        padding: 8px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .dropdown .btn:hover {
+        background: #3498db;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Style dropdown menu */
+      .dropdown-menu {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(52, 152, 219, 0.3);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+        padding: 8px 0;
+        margin-top: 5px;
+        border-radius: 8px;
+      }
+
+      .dropdown-item {
+        color: #2c3e50;
+        font-weight: 500;
+        padding: 8px 20px;
+        transition: all 0.2s ease;
+      }
+
+      .dropdown-item:hover {
+        background: rgba(52, 152, 219, 0.1);
+        color: #3498db;
+      }
+
+      /* Add icon to dropdown button */
+      .dropdown .btn::after {
+        margin-left: 8px;
+        vertical-align: middle;
+        border-top: 0.3em solid #3498db;
+        border-right: 0.3em solid transparent;
+        border-left: 0.3em solid transparent;
+      }
+
+      .dropdown .btn:hover::after {
+        border-top-color: white;
+      }
+
+      .toast {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: 1px solid rgba(52, 152, 219, 0.3);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .toast-header {
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+        border-radius: 10px 10px 0 0;
+      }
+
+      .toast.show {
+        animation: slideIn 0.3s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
@@ -230,62 +316,24 @@
     <!-- AOS Animation Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-    npx create-react-app wikithanks cd wikithanks npx create-react-app
-    wikithanks cd wikithanks
     <script>
-      const contributorsJSON = {
-        continue: { rvcontinue: "20241203042820|1260896030", continue: "||" },
-        query: {
-          pages: [
-            {
-              pageid: 9228,
-              ns: 0,
-              title: "Earth",
-              revisions: [
-                {
-                  user: "Zzzs",
-                  timestamp: "2024-12-10T20:46:30Z",
-                  comment: "Reverted good faith edits.",
-                },
-                {
-                  user: "Cyan Burrito",
-                  timestamp: "2024-12-10T18:00:17Z",
-                  comment: "Added Hyperlink.",
-                },
-                {
-                  user: "Geopersona",
-                  timestamp: "2024-12-07T10:17:38Z",
-                  comment: "The quoted source appears to say 4.0.",
-                },
-                {
-                  user: "Mathglot",
-                  timestamp: "2024-12-05T21:04:21Z",
-                  comment: "Roll back two revisions to standard version.",
-                },
-                {
-                  user: "IznoRepeat",
-                  timestamp: "2024-12-05T20:02:27Z",
-                  comment: "Add WP:TEMPLATECAT.",
-                },
-                {
-                  user: "Remsense",
-                  timestamp: "2024-12-04T16:54:19Z",
-                  comment: "Undid revision 1261162078.",
-                },
-                {
-                  user: "WhatisMars",
-                  timestamp: "2024-12-04T16:19:00Z",
-                  comment: "Let's make an RFC, shall we?",
-                },
-              ],
-            },
-          ],
-        },
-      };
-
       function createContributorCard(contributor) {
         const card = document.createElement("div");
         card.className = "col-md-6";
+
+        // Format the date to GMT
+        const date = new Date(contributor.timestamp);
+        const gmtTime = date.toLocaleString("en-US", {
+          timeZone: "GMT",
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          timeZoneName: "short",
+        });
+
         card.innerHTML = `
             <div class="contributor-card p-3">
                 <div class="d-flex align-items-center gap-3">
@@ -295,16 +343,19 @@
                          alt="${contributor.user}" class="avatar">
                     <div class="flex-grow-1">
                         <h5 class="mb-1">${contributor.user}</h5>
-                        <p class="mb-1 text-muted small">
-                            <i class="fas fa-comment-alt me-2"></i>${
-                              contributor.comment || "No comment available"
-                            }
-                        </p>
-                        <small class="text-primary">
-                            <i class="fas fa-clock me-1"></i>${new Date(
-                              contributor.timestamp
-                            ).toLocaleString()}
-                        </small>
+                        <div class="contributor-details" id="details-${contributor.user.replace(
+                          /\s+/g,
+                          "-"
+                        )}" style="display: none;">
+                            <p class="mb-1 text-muted small">
+                                <i class="fas fa-comment-alt me-2"></i>${
+                                  contributor.comment || "No comment available"
+                                }
+                            </p>
+                            <small class="text-primary">
+                                <i class="fas fa-clock me-1"></i>${gmtTime}
+                            </small>
+                        </div>
                     </div>
                     <div class="d-flex gap-2">
                         <button class="btn btn-sm btn-outline-success" onclick="thankUser('${
@@ -312,7 +363,7 @@
                         }')">
                             <i class="fas fa-heart heart-icon"></i>
                         </button>
-                        <button class="btn btn-sm btn-outline-primary" onclick="showUserDetails('${
+                        <button class="btn btn-sm btn-outline-primary" onclick="toggleUserDetails('${
                           contributor.user
                         }')">
                             <i class="fas fa-info-circle"></i>
@@ -324,9 +375,22 @@
         return card;
       }
 
-      function showUserDetails(username) {
-        // Implement user details modal here
-        alert(`Showing details for ${username}`);
+      function toggleUserDetails(username) {
+        const detailsId = `details-${username.replace(/\s+/g, "-")}`;
+        const detailsElement = document.getElementById(detailsId);
+
+        // Hide all other open details first
+        document.querySelectorAll(".contributor-details").forEach((el) => {
+          if (el.id !== detailsId) {
+            el.style.display = "none";
+          }
+        });
+
+        // Toggle the clicked details
+        if (detailsElement) {
+          detailsElement.style.display =
+            detailsElement.style.display === "none" ? "block" : "none";
+        }
       }
 
       function sortByDate() {
@@ -337,38 +401,146 @@
         // Implement name sorting
       }
 
+      function fetchWikiHistory() {
+        // API endpoint for Wikipedia
+        const endpoint = "https://en.wikipedia.org/w/api.php";
+
+        // Parameters for edit history
+        const params = {
+          action: "query",
+          format: "json",
+          prop: "revisions",
+          titles: "Earth", // article title
+          rvprop: "user|timestamp|comment|size|ids", // properties we want to fetch
+          rvlimit: "max", // number of revisions (max 500 for normal users)
+          rvslots: "main",
+          rvdir: "older", // direction of revision listing (newer/older)
+          origin: "*", // CORS parameter
+        };
+
+        // Construct URL with parameters
+        const url =
+          endpoint +
+          "?" +
+          Object.entries(params)
+            .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
+            .join("&");
+
+        // Show loading state
+        document.getElementById("loading").style.display = "block";
+
+        // Fetch the data
+        fetch(url, {
+          headers: {
+            "User-Agent": "WikiContributorsHub/1.0 (your-email@example.com)",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("loading").style.display = "none";
+            if (data.error) {
+              throw new Error(data.error.info);
+            }
+            displayContributors(data);
+          })
+          .catch((error) => {
+            console.error("Error fetching Wikipedia data:", error);
+            document.getElementById(
+              "loading"
+            ).innerHTML = `<div class="alert alert-danger">Error loading data: ${error.message}</div>`;
+          });
+      }
+
       function displayContributors(data) {
         const container = document.getElementById("contributors-list");
         container.innerHTML = "";
 
-        const revisions = data.query.pages[0].revisions;
-        revisions.forEach((contributor) => {
-          container.appendChild(createContributorCard(contributor));
-        });
+        // Handle the Wikipedia API response structure
+        const pages = data.query.pages;
+        const pageId = Object.keys(pages)[0];
+        const allRevisions = pages[pageId].revisions;
 
-        document.getElementById("total-edits").textContent = revisions.length;
+        if (!allRevisions || allRevisions.length === 0) {
+          container.innerHTML =
+            '<div class="alert alert-info">No revision history available</div>';
+          return;
+        }
+
+        // Sort all revisions by timestamp (newest first)
+        allRevisions.sort(
+          (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+        );
+
+        // Update total statistics using all revisions
+        document.getElementById("total-edits").textContent =
+          allRevisions.length;
         document.getElementById("total-contributors").textContent = new Set(
-          revisions.map((c) => c.user)
+          allRevisions.map((r) => r.user)
         ).size;
 
         // Calculate hours since last edit
-        const lastEdit = new Date(revisions[0].timestamp);
+        const lastEdit = new Date(allRevisions[0].timestamp);
         const now = new Date();
         const hoursSinceLastEdit = Math.round(
           (now - lastEdit) / (1000 * 60 * 60)
         );
         document.getElementById("last-update").textContent = hoursSinceLastEdit;
+
+        // Display only the latest 50 revisions
+        const latestRevisions = allRevisions.slice(0, 50);
+        latestRevisions.forEach((revision) => {
+          container.appendChild(
+            createContributorCard({
+              user: revision.user,
+              timestamp: revision.timestamp,
+              comment: revision.comment,
+              size: revision.size,
+              revid: revision.revid,
+            })
+          );
+        });
       }
 
+      // Optional: Add function to load more revisions using continue token
+      function loadMoreRevisions(continueToken) {
+        const params = {
+          action: "query",
+          format: "json",
+          prop: "revisions",
+          titles: "Earth",
+          rvprop: "user|timestamp|comment|size|ids",
+          rvlimit: 50,
+          rvslots: "main",
+          rvdir: "older",
+          origin: "*",
+          rvcontinue: continueToken,
+        };
+
+        // ... similar fetch logic as above
+      }
+
+      // Call this when the page loads
       document.addEventListener("DOMContentLoaded", () => {
-        AOS.init(); // Initialize AOS
-        document.getElementById("loading").style.display = "none";
-        displayContributors(contributorsJSON);
+        AOS.init();
+        fetchWikiHistory();
       });
 
       function thankUser(username) {
-        // You can implement the thank you functionality here
-        alert(`Thank you message sent to ${username}!`);
+        // Create toast instance if it doesn't exist
+        const toastEl = document.getElementById("thankToast");
+        const toast = new bootstrap.Toast(toastEl, {
+          animation: true,
+          autohide: true,
+          delay: 3000,
+        });
+
+        // Update toast message
+        document.getElementById(
+          "toastMessage"
+        ).textContent = `Thank you message sent to ${username}!`;
+
+        // Show the toast
+        toast.show();
       }
     </script>
     <script>
@@ -393,5 +565,56 @@
         createWikiSymbols();
       });
     </script>
+    <script>
+      function createTimelineBackground() {
+        const container = document.createElement("div");
+        container.className = "timeline-background";
+
+        // Create multiple timeline lines
+        for (let i = 0; i < 10; i++) {
+          const line = document.createElement("div");
+          line.className = "timeline-line";
+          line.style.left = `${Math.random() * 100}%`;
+          line.style.animationDelay = `${Math.random() * 5}s`;
+          container.appendChild(line);
+
+          // Add dots along the line
+          const dot = document.createElement("div");
+          dot.className = "timeline-dot";
+          dot.style.left = `${Math.random() * 100}%`;
+          dot.style.top = `${Math.random() * 100}%`;
+          dot.style.animationDelay = `${Math.random() * 3}s`;
+          container.appendChild(dot);
+        }
+
+        document.body.appendChild(container);
+      }
+
+      // Initialize timeline background
+      document.addEventListener("DOMContentLoaded", () => {
+        createTimelineBackground();
+      });
+    </script>
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+      <div
+        id="thankToast"
+        class="toast"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header">
+          <i class="fas fa-heart heart-icon me-2"></i>
+          <strong class="me-auto">Thank You Sent</strong>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body" id="toastMessage"></div>
+      </div>
+    </div>
   </body>
 </html>

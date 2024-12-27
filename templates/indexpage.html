@@ -88,18 +88,18 @@
               type="button"
               data-bs-toggle="dropdown"
             >
-              Sort By
+              Sort By Date
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="#" onclick="sortByDate()"
-                  >Date</a
-                >
+                <a class="dropdown-item" href="#" onclick="sortByDate('desc')">
+                  <i class="fas fa-sort-amount-down me-2"></i>Newest First
+                </a>
               </li>
               <li>
-                <a class="dropdown-item" href="#" onclick="sortByName()"
-                  >Name</a
-                >
+                <a class="dropdown-item" href="#" onclick="sortByDate('asc')">
+                  <i class="fas fa-sort-amount-up me-2"></i>Oldest First
+                </a>
               </li>
             </ul>
           </div>
@@ -191,10 +191,36 @@
         }
       }
 
-      function sortByDate() {
+      function sortByDate(order) {
+        const container = document.getElementById("contributors-list");
+        const cards = Array.from(container.children);
+
+        cards.sort((a, b) => {
+          const dateA = new Date(
+            a
+              .querySelector("small.text-primary")
+              .textContent.replace("GMT", "")
+              .trim()
+          );
+          const dateB = new Date(
+            b
+              .querySelector("small.text-primary")
+              .textContent.replace("GMT", "")
+              .trim()
+          );
+          return order === "asc" ? dateA - dateB : dateB - dateA;
+        });
+
+        container.innerHTML = "";
+        cards.forEach((card) => container.appendChild(card));
+
+        const buttonText =
+          order === "asc"
+            ? "Sort By Date (Oldest First)"
+            : "Sort By Date (Newest First)";
+        document.querySelector(".dropdown-toggle").textContent = buttonText;
       }
-      function sortByName() {
-      }
+
       function fetchWikiHistory(articleTitle) {
         if (!articleTitle) return;
         const endpoint = "https://en.wikipedia.org/w/api.php";
@@ -238,43 +264,45 @@
             const pageId = Object.keys(pages)[0];
             const revisions = pages[pageId].revisions || [];
             allRevisions = allRevisions.concat(revisions);
-            
+
             // Update loading message
             const loadingElement = document.getElementById("loading");
-            document.getElementById("loading-text").textContent = 
-                `Loading revisions... (${allRevisions.length} loaded)`;
+            document.getElementById(
+              "loading-text"
+            ).textContent = `Loading revisions... (${allRevisions.length} loaded)`;
             loadingElement.classList.add("show");
 
             if (data.continue && data.continue.rvcontinue) {
-                await delay(1000);
-                await fetchAllRevisions(data.continue.rvcontinue);
+              await delay(1000);
+              await fetchAllRevisions(data.continue.rvcontinue);
             } else {
-                // Hide loading toast with animation
-                loadingElement.classList.remove("show");
-                setTimeout(() => {
-                    loadingElement.style.display = "none";
-                }, 300); // Wait for transition to complete
-                
-                displayContributors({
-                    query: { pages: { [pageId]: { revisions: allRevisions } } },
-                });
+              // Hide loading toast with animation
+              loadingElement.classList.remove("show");
+              setTimeout(() => {
+                loadingElement.style.display = "none";
+              }, 300); // Wait for transition to complete
+
+              displayContributors({
+                query: { pages: { [pageId]: { revisions: allRevisions } } },
+              });
             }
           } catch (error) {
             console.error("Error fetching Wikipedia data:", error);
             const loadingElement = document.getElementById("loading");
-            document.getElementById("loading-text").textContent = 
-                `Error loading data: ${error.message}`;
+            document.getElementById(
+              "loading-text"
+            ).textContent = `Error loading data: ${error.message}`;
             setTimeout(() => {
-                loadingElement.classList.remove("show");
+              loadingElement.classList.remove("show");
             }, 3000);
           }
         }
-        
+
         // Show loading toast when starting
         const loadingElement = document.getElementById("loading");
         loadingElement.style.display = "block";
         loadingElement.classList.add("show");
-        
+
         fetchAllRevisions();
       }
 
@@ -284,25 +312,33 @@
         const pages = data.query.pages;
         const pageId = Object.keys(pages)[0];
         const allRevisions = pages[pageId].revisions;
+
         if (!allRevisions || allRevisions.length === 0) {
           container.innerHTML =
             '<div class="alert alert-info">No revision history available</div>';
           return;
         }
+
+        // Sort by newest first initially
         allRevisions.sort(
           (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
         );
+
+        // Update stats
         document.getElementById("total-edits").textContent =
           allRevisions.length;
         document.getElementById("total-contributors").textContent = new Set(
           allRevisions.map((r) => r.user)
         ).size;
+
         const lastEdit = new Date(allRevisions[0].timestamp);
         const now = new Date();
         const hoursSinceLastEdit = Math.round(
           (now - lastEdit) / (1000 * 60 * 60)
         );
         document.getElementById("last-update").textContent = hoursSinceLastEdit;
+
+        // Display latest revisions
         const latestRevisions = allRevisions.slice(0, 50);
         latestRevisions.forEach((revision) => {
           container.appendChild(
@@ -315,6 +351,10 @@
             })
           );
         });
+
+        // Set initial sort button text
+        document.querySelector(".dropdown-toggle").textContent =
+          "Sort By Date (Newest First)";
       }
       function loadMoreRevisions(continueToken) {
         const params = {

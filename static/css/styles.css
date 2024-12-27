@@ -275,7 +275,7 @@ body::before {
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.3),
     0 0 20px rgba(255, 255, 255, 0.2), 0 0 30px rgba(255, 255, 255, 0.1),
-    0 0 40px rgba(0, 123, 255, 0.1);
+    0 0 40px rgba(0, 123, 255, 0.1); /* Added blue glow */
   font-weight: 600;
   background: transparent;
   padding: 0;

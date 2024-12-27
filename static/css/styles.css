@@ -1,0 +1,338 @@
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  .container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  .stats-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    backdrop-filter: blur(8px);
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    margin-bottom: 20px;
+  }
+  .stats-card:hover {
+    transform: translateY(-5px);
+  }
+  .contributor-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+  }
+  .contributor-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  .stat-label {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .page-title {
+    color: #ffffff;
+    font-weight: 700;
+    margin-bottom: 30px;
+    position: relative;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  .page-title::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: #3498db;
+    border-radius: 3px;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        rgba(44, 62, 80, 0.7),
+        rgba(52, 152, 219, 0.7)
+      ),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='rgba(255,255,255,0.05)'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.8;
+    z-index: -1;
+    animation: animateBackground 60s linear infinite;
+  }
+  .wiki-symbols {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .wiki-symbol {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.1);
+    font-family: "Times New Roman", serif;
+    font-size: 2rem;
+    animation: float 15s infinite linear;
+  }
+  @keyframes animateBackground {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  .heart-icon {
+    color: #ff0000 !important;
+  }
+  .btn-outline-success:hover .heart-icon {
+    color: white !important;
+  }
+  /* Update dropdown button styling for better visibility */
+  .dropdown .btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #3498db;
+    color: #2c3e50;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .dropdown .btn:hover {
+    background: #3498db;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Style dropdown menu */
+  .dropdown-menu {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    padding: 8px 0;
+    margin-top: 5px;
+    border-radius: 8px;
+  }
+
+  .dropdown-item {
+    color: #2c3e50;
+    font-weight: 500;
+    padding: 8px 20px;
+    transition: all 0.2s ease;
+  }
+
+  .dropdown-item:hover {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+  }
+
+  /* Add icon to dropdown button */
+  .dropdown .btn::after {
+    margin-left: 8px;
+    vertical-align: middle;
+    border-top: 0.3em solid #3498db;
+    border-right: 0.3em solid transparent;
+    border-left: 0.3em solid transparent;
+  }
+
+  .dropdown .btn:hover::after {
+    border-top-color: white;
+  }
+
+  .toast {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .toast-header {
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid rgba(52, 152, 219, 0.2);
+    border-radius: 10px 10px 0 0;
+  }
+
+  .toast.show {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* Add to your existing styles */
+  .login-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+  }
+
+  .wiki-login-btn {
+    transition: all 0.3s ease;
+  }
+
+  .wiki-login-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .search-container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .search-container .input-group {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-container input {
+    border: none;
+    padding: 15px;
+    background: transparent;
+  }
+
+  .search-container input:focus {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .search-container .btn {
+    padding: 10px 25px;
+    font-weight: 600;
+  }
+
+  /* Initially hide the loading spinner */
+  #loading {
+    display: none;
+  }
+
+  /* Add these new styles for the loading toast */
+  .loading-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(-10px);
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out, transform 0.2s ease-out;
+  }
+
+  .loading-toast.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .loading-toast .spinner-border {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 10px;
+  }
+
+  /* Make sure contributors section doesn't affect toast positioning */
+  .contributors-section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .page-title, .text-muted {
+    color: #ffffff !important;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  h3.mb-0 {  /* For "Recent Contributors" */
+    color: #ffffff;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Override Bootstrap's text-muted specifically for the subtitle */
+  h4.text-muted {  /* For "Article Statistics" */
+    color: #ffffff !important;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateX(-50%) translateY(-10px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .loading-toast.show {
+    animation: slideIn 0.2s ease-out forwards;
+  }

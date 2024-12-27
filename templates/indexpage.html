@@ -21,272 +21,8 @@
     />
     <!-- AOS Animation Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-        min-height: 100vh;
-        position: relative;
-        overflow-x: hidden;
-      }
-      .container {
-        max-width: 1000px;
-        margin: 40px auto;
-        padding: 20px;
-      }
-      .stats-card {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
-        backdrop-filter: blur(8px);
-        padding: 25px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        margin-bottom: 20px;
-      }
-      .stats-card:hover {
-        transform: translateY(-5px);
-      }
-      .contributor-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
-        margin-bottom: 15px;
-        transition: all 0.3s ease;
-      }
-      .contributor-card:hover {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
-      }
-      .avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        border: 3px solid #fff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      }
-      .stat-value {
-        font-size: 2.5rem;
-        font-weight: 600;
-        color: #2c3e50;
-      }
-      .stat-label {
-        color: #7f8c8d;
-        font-size: 0.9rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-      }
-      .page-title {
-        color: #ffffff;
-        font-weight: 700;
-        margin-bottom: 30px;
-        position: relative;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-      }
-      .page-title::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 50px;
-        height: 3px;
-        background: #3498db;
-        border-radius: 3px;
-      }
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-            rgba(44, 62, 80, 0.7),
-            rgba(52, 152, 219, 0.7)
-          ),
-          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='rgba(255,255,255,0.1)' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='rgba(255,255,255,0.05)'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E");
-        opacity: 0.8;
-        z-index: -1;
-        animation: animateBackground 60s linear infinite;
-      }
-      .wiki-symbols {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: -1;
-        overflow: hidden;
-      }
-      .wiki-symbol {
-        position: absolute;
-        color: rgba(255, 255, 255, 0.1);
-        font-family: "Times New Roman", serif;
-        font-size: 2rem;
-        animation: float 15s infinite linear;
-      }
-      @keyframes animateBackground {
-        0% {
-          background-position: 0% 0%;
-        }
-        100% {
-          background-position: 100% 100%;
-        }
-      }
-      @keyframes float {
-        0% {
-          transform: translateY(100vh) rotate(0deg);
-          opacity: 0;
-        }
-        10% {
-          opacity: 1;
-        }
-        90% {
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(-100vh) rotate(360deg);
-          opacity: 0;
-        }
-      }
-      .heart-icon {
-        color: #ff0000 !important;
-      }
-      .btn-outline-success:hover .heart-icon {
-        color: white !important;
-      }
-      /* Update dropdown button styling for better visibility */
-      .dropdown .btn {
-        background: rgba(255, 255, 255, 0.9);
-        border: 2px solid #3498db;
-        color: #2c3e50;
-        font-weight: 600;
-        padding: 8px 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .dropdown .btn:hover {
-        background: #3498db;
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      /* Style dropdown menu */
-      .dropdown-menu {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(52, 152, 219, 0.3);
-        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
-        padding: 8px 0;
-        margin-top: 5px;
-        border-radius: 8px;
-      }
-
-      .dropdown-item {
-        color: #2c3e50;
-        font-weight: 500;
-        padding: 8px 20px;
-        transition: all 0.2s ease;
-      }
-
-      .dropdown-item:hover {
-        background: rgba(52, 152, 219, 0.1);
-        color: #3498db;
-      }
-
-      /* Add icon to dropdown button */
-      .dropdown .btn::after {
-        margin-left: 8px;
-        vertical-align: middle;
-        border-top: 0.3em solid #3498db;
-        border-right: 0.3em solid transparent;
-        border-left: 0.3em solid transparent;
-      }
-
-      .dropdown .btn:hover::after {
-        border-top-color: white;
-      }
-
-      .toast {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 10px;
-        border: 1px solid rgba(52, 152, 219, 0.3);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .toast-header {
-        background: rgba(255, 255, 255, 0.8);
-        border-bottom: 1px solid rgba(52, 152, 219, 0.2);
-        border-radius: 10px 10px 0 0;
-      }
-
-      .toast.show {
-        animation: slideIn 0.3s ease-out;
-      }
-
-      @keyframes slideIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      /* Add to your existing styles */
-      .login-container {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        z-index: 1000;
-      }
-
-      .wiki-login-btn {
-        transition: all 0.3s ease;
-      }
-
-      .wiki-login-btn:hover {
-        transform: translateY(-2px);
-      }
-
-      .search-container {
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .search-container .input-group {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .search-container input {
-        border: none;
-        padding: 15px;
-        background: transparent;
-      }
-
-      .search-container input:focus {
-        box-shadow: none;
-        background: transparent;
-      }
-
-      .search-container .btn {
-        padding: 10px 25px;
-        font-weight: 600;
-      }
-    </style>
+    <!-- Custom CSS -->
+    <link href="/static/css/styles.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container py-5">
@@ -360,9 +96,12 @@
           </div>
         </div>
 
-        <div id="loading" class="text-center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div id="loading" class="loading-toast">
+          <div class="d-flex align-items-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <span id="loading-text">Loading...</span>
           </div>
         </div>
 
@@ -453,20 +192,12 @@
       }
 
       function sortByDate() {
-        // Implement date sorting
       }
-
       function sortByName() {
-        // Implement name sorting
       }
-
       function fetchWikiHistory(articleTitle) {
-        if (!articleTitle) return; // Add guard clause
-
-        // API endpoint for Wikipedia
+        if (!articleTitle) return;
         const endpoint = "https://en.wikipedia.org/w/api.php";
-
-        // Parameters for edit history
         const params = {
           action: "query",
           format: "json",
@@ -478,28 +209,19 @@
           rvdir: "older", // direction of revision listing (newer/older)
           origin: "*", // CORS parameter
         };
-
-        // Construct URL with parameters
         const url =
           endpoint +
           "?" +
           Object.entries(params)
             .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
             .join("&");
-
-        // Show loading state
         document.getElementById("loading").style.display = "block";
-
-        // Create array to store all revisions
         let allRevisions = [];
-
-        // Fetch the data recursively
         async function fetchAllRevisions(continueToken = null) {
           let currentUrl = url;
           if (continueToken) {
             currentUrl += `&rvcontinue=${continueToken}`;
           }
-
           try {
             const response = await fetch(currentUrl, {
               headers: {
@@ -512,82 +234,75 @@
             if (data.error) {
               throw new Error(data.error.info);
             }
-
-            // Get revisions from current batch
             const pages = data.query.pages;
             const pageId = Object.keys(pages)[0];
             const revisions = pages[pageId].revisions || [];
             allRevisions = allRevisions.concat(revisions);
-
+            
             // Update loading message
-            document.getElementById("loading").innerHTML = `
-              <div class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="mt-2">Loading revisions... (${allRevisions.length} loaded)</div>
-              </div>
-            `;
+            const loadingElement = document.getElementById("loading");
+            document.getElementById("loading-text").textContent = 
+                `Loading revisions... (${allRevisions.length} loaded)`;
+            loadingElement.classList.add("show");
 
-            // If there are more revisions, fetch them
             if (data.continue && data.continue.rvcontinue) {
-              await delay(1000); // 1 second delay between requests
-              await fetchAllRevisions(data.continue.rvcontinue);
+                await delay(1000);
+                await fetchAllRevisions(data.continue.rvcontinue);
             } else {
-              // All data loaded, display results
-              document.getElementById("loading").style.display = "none";
-              displayContributors({
-                query: { pages: { [pageId]: { revisions: allRevisions } } },
-              });
+                // Hide loading toast with animation
+                loadingElement.classList.remove("show");
+                setTimeout(() => {
+                    loadingElement.style.display = "none";
+                }, 300); // Wait for transition to complete
+                
+                displayContributors({
+                    query: { pages: { [pageId]: { revisions: allRevisions } } },
+                });
             }
           } catch (error) {
             console.error("Error fetching Wikipedia data:", error);
-            document.getElementById(
-              "loading"
-            ).innerHTML = `<div class="alert alert-danger">Error loading data: ${error.message}</div>`;
+            const loadingElement = document.getElementById("loading");
+            document.getElementById("loading-text").textContent = 
+                `Error loading data: ${error.message}`;
+            setTimeout(() => {
+                loadingElement.classList.remove("show");
+            }, 3000);
           }
         }
-
-        // Start the recursive fetch
+        
+        // Show loading toast when starting
+        const loadingElement = document.getElementById("loading");
+        loadingElement.style.display = "block";
+        loadingElement.classList.add("show");
+        
         fetchAllRevisions();
       }
 
       function displayContributors(data) {
         const container = document.getElementById("contributors-list");
         container.innerHTML = "";
-
-        // Handle the Wikipedia API response structure
         const pages = data.query.pages;
         const pageId = Object.keys(pages)[0];
         const allRevisions = pages[pageId].revisions;
-
         if (!allRevisions || allRevisions.length === 0) {
           container.innerHTML =
             '<div class="alert alert-info">No revision history available</div>';
           return;
         }
-
-        // Sort all revisions by timestamp (newest first)
         allRevisions.sort(
           (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
         );
-
-        // Update total statistics using all revisions
         document.getElementById("total-edits").textContent =
           allRevisions.length;
         document.getElementById("total-contributors").textContent = new Set(
           allRevisions.map((r) => r.user)
         ).size;
-
-        // Calculate hours since last edit
         const lastEdit = new Date(allRevisions[0].timestamp);
         const now = new Date();
         const hoursSinceLastEdit = Math.round(
           (now - lastEdit) / (1000 * 60 * 60)
         );
         document.getElementById("last-update").textContent = hoursSinceLastEdit;
-
-        // Display only the latest 50 revisions
         const latestRevisions = allRevisions.slice(0, 50);
         latestRevisions.forEach((revision) => {
           container.appendChild(
@@ -601,8 +316,6 @@
           );
         });
       }
-
-      // Optional: Add function to load more revisions using continue token
       function loadMoreRevisions(continueToken) {
         const params = {
           action: "query",
@@ -616,23 +329,17 @@
           origin: "*",
           rvcontinue: continueToken,
         };
-
-        // ... similar fetch logic as above
       }
-
-      // Call this when the page loads
       document.addEventListener("DOMContentLoaded", () => {
         AOS.init();
-        // Remove the default fetchWikiHistory call
       });
-
       async function getWikiAccessToken() {
         const tokenUrl =
           "https://meta.wikimedia.org/w/rest.php/oauth2/access_token";
         const params = new URLSearchParams({
           grant_type: "client_credentials",
-          client_id: "863745c2ac7985f3bedb660594daca36", // Replace with your OAuth client ID
-          client_secret: "b01380e18f1fd2a8e5ae23c14134dd67bab2153c", // Replace with your OAuth client secret
+          client_id: "863745c2ac7985f3bedb660594daca36",
+          client_secret: "b01380e18f1fd2a8e5ae23c14134dd67bab2153c",
         });
 
         try {
@@ -649,7 +356,6 @@
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
-
           const data = await response.json();
           return data.access_token;
         } catch (error) {
@@ -657,8 +363,6 @@
           throw error;
         }
       }
-
-      // Add this function to handle the login popup
       function openWikiLoginPopup() {
         const oauthConfig = {
           clientId: "863745c2ac7985f3bedb660594daca36",
@@ -666,15 +370,12 @@
           authEndpoint:
             "https://meta.wikimedia.org/w/rest.php/oauth2/authorize",
         };
-
         const authUrl =
           `${oauthConfig.authEndpoint}?` +
           `response_type=code&` +
           `client_id=${oauthConfig.clientId}&` +
           `redirect_uri=${oauthConfig.redirectUri}&` +
           `scope=thank`;
-
-        // Create modal for login
         const modalHtml = `
           <div class="modal fade" id="wikiLoginModal" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
@@ -698,19 +399,13 @@
             </div>
           </div>
         `;
-
-        // Add modal to body if it doesn't exist
         if (!document.getElementById("wikiLoginModal")) {
           document.body.insertAdjacentHTML("beforeend", modalHtml);
         }
-
-        // Show the modal
         const modal = new bootstrap.Modal(
           document.getElementById("wikiLoginModal")
         );
         modal.show();
-
-        // Open Wikipedia login in a popup when button is clicked
         document
           .querySelector("#wikiLoginModal .btn-primary")
           .addEventListener("click", (e) => {
@@ -719,7 +414,6 @@
             const height = 600;
             const left = window.screen.width / 2 - width / 2;
             const top = window.screen.height / 2 - height / 2;
-
             window.open(
               authUrl,
               "WikiLogin",
@@ -728,16 +422,10 @@
             modal.hide();
           });
       }
-
-      // Update the thankUser function
       async function thankUser(username, revId) {
         const token = localStorage.getItem("wikiToken");
-
         if (!token) {
-          // Show login modal if not logged in
           openWikiLoginPopup();
-
-          // Store the pending thank you details
           localStorage.setItem(
             "pendingThank",
             JSON.stringify({
@@ -777,14 +465,10 @@
           showToast("Failed to send thank you message", "error");
         }
       }
-
-      // Handle the OAuth callback
       window.addEventListener("message", async function (event) {
         if (event.data.type === "wikiauth") {
           const code = event.data.code;
           await handleWikiAuth(code);
-
-          // Check for pending thank you
           const pendingThank = localStorage.getItem("pendingThank");
           if (pendingThank) {
             const { username, revId } = JSON.parse(pendingThank);
@@ -793,8 +477,6 @@
           }
         }
       });
-
-      // Add this toast HTML if not already present
       const toastHtml = `
         <div class="toast-container position-fixed top-0 end-0 p-3">
           <div id="thankToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -807,13 +489,9 @@
           </div>
         </div>
       `;
-
-      // Add toast container if not present
       if (!document.querySelector(".toast-container")) {
         document.body.insertAdjacentHTML("beforeend", toastHtml);
       }
-
-      // Add these new functions
       async function searchArticle() {
         const articleTitle = document
           .getElementById("articleSearch")
@@ -825,38 +503,29 @@
           errorDiv.textContent = "Please enter an article title";
           return;
         }
-
-        // Show loading immediately
         loading.style.display = "block";
         errorDiv.textContent = "";
         document.getElementById("contributors-list").innerHTML = "";
         document.getElementById("total-edits").textContent = "0";
         document.getElementById("total-contributors").textContent = "0";
         document.getElementById("last-update").textContent = "0";
-
         try {
-          // First, verify the article exists
           const checkUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&titles=${encodeURIComponent(
             articleTitle
           )}&origin=*`;
-
           const response = await fetch(checkUrl);
           const data = await response.json();
-
           const pages = data.query.pages;
           if (pages[-1]) {
-            // Article doesn't exist
-            loading.style.display = "none"; // Hide loading
+            loading.style.display = "none";
             errorDiv.textContent =
               "Article not found. Please check the title and try again.";
             return;
           }
-
-          // Article exists, fetch its history
           fetchWikiHistory(articleTitle);
         } catch (error) {
           console.error("Error searching article:", error);
-          loading.style.display = "none"; // Hide loading
+          loading.style.display = "none";
           errorDiv.textContent =
             "Error searching for article. Please try again.";
         }
@@ -878,8 +547,6 @@
 
         document.body.appendChild(container);
       }
-
-      // Call this function when the document is loaded
       document.addEventListener("DOMContentLoaded", () => {
         createWikiSymbols();
       });
@@ -888,16 +555,12 @@
       function createTimelineBackground() {
         const container = document.createElement("div");
         container.className = "timeline-background";
-
-        // Create multiple timeline lines
         for (let i = 0; i < 10; i++) {
           const line = document.createElement("div");
           line.className = "timeline-line";
           line.style.left = `${Math.random() * 100}%`;
           line.style.animationDelay = `${Math.random() * 5}s`;
           container.appendChild(line);
-
-          // Add dots along the line
           const dot = document.createElement("div");
           dot.className = "timeline-dot";
           dot.style.left = `${Math.random() * 100}%`;
@@ -908,14 +571,11 @@
 
         document.body.appendChild(container);
       }
-
-      // Initialize timeline background
       document.addEventListener("DOMContentLoaded", () => {
         createTimelineBackground();
       });
     </script>
     <script>
-      // Add this helper function
       function delay(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }

@@ -263,25 +263,25 @@
         max-width: 600px;
         margin: 0 auto;
       }
-      
+
       .search-container .input-group {
         background: rgba(255, 255, 255, 0.95);
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       }
-      
+
       .search-container input {
         border: none;
         padding: 15px;
         background: transparent;
       }
-      
+
       .search-container input:focus {
         box-shadow: none;
         background: transparent;
       }
-      
+
       .search-container .btn {
         padding: 10px 25px;
         font-weight: 600;
@@ -297,13 +297,12 @@
 
       <div class="search-container mb-4" data-aos="fade-up">
         <div class="input-group">
-          <input 
-            type="text" 
-            id="articleSearch" 
-            class="form-control" 
+          <input
+            type="text"
+            id="articleSearch"
+            class="form-control"
             placeholder="Enter Wikipedia article title..."
-            value="Earth"
-          >
+          />
           <button class="btn btn-primary" onclick="searchArticle()">
             <i class="fas fa-search me-2"></i>Search
           </button>
@@ -461,7 +460,9 @@
         // Implement name sorting
       }
 
-      function fetchWikiHistory(articleTitle = 'Earth') {
+      function fetchWikiHistory(articleTitle) {
+        if (!articleTitle) return; // Add guard clause
+
         // API endpoint for Wikipedia
         const endpoint = "https://en.wikipedia.org/w/api.php";
 
@@ -622,8 +623,7 @@
       // Call this when the page loads
       document.addEventListener("DOMContentLoaded", () => {
         AOS.init();
-        // Initialize with Earth article by default
-        fetchWikiHistory('Earth');
+        // Remove the default fetchWikiHistory call
       });
 
       async function getWikiAccessToken() {
@@ -815,39 +815,50 @@
 
       // Add these new functions
       async function searchArticle() {
-        const articleTitle = document.getElementById('articleSearch').value.trim();
-        const errorDiv = document.getElementById('searchError');
-        
+        const articleTitle = document
+          .getElementById("articleSearch")
+          .value.trim();
+        const errorDiv = document.getElementById("searchError");
+        const loading = document.getElementById("loading");
+
         if (!articleTitle) {
-          errorDiv.textContent = 'Please enter an article title';
+          errorDiv.textContent = "Please enter an article title";
           return;
         }
 
-        // Reset error message and previous results
-        errorDiv.textContent = '';
-        document.getElementById('contributors-list').innerHTML = '';
-        document.getElementById('total-edits').textContent = '0';
-        document.getElementById('total-contributors').textContent = '0';
-        document.getElementById('last-update').textContent = '0';
+        // Show loading immediately
+        loading.style.display = "block";
+        errorDiv.textContent = "";
+        document.getElementById("contributors-list").innerHTML = "";
+        document.getElementById("total-edits").textContent = "0";
+        document.getElementById("total-contributors").textContent = "0";
+        document.getElementById("last-update").textContent = "0";
 
         try {
           // First, verify the article exists
-          const checkUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&titles=${encodeURIComponent(articleTitle)}&origin=*`;
-          
+          const checkUrl = `https://en.wikipedia.org/w/api.php?action=query&format=json&titles=${encodeURIComponent(
+            articleTitle
+          )}&origin=*`;
+
           const response = await fetch(checkUrl);
           const data = await response.json();
-          
+
           const pages = data.query.pages;
-          if (pages[-1]) { // Article doesn't exist
-            errorDiv.textContent = 'Article not found. Please check the title and try again.';
+          if (pages[-1]) {
+            // Article doesn't exist
+            loading.style.display = "none"; // Hide loading
+            errorDiv.textContent =
+              "Article not found. Please check the title and try again.";
             return;
           }
 
           // Article exists, fetch its history
           fetchWikiHistory(articleTitle);
         } catch (error) {
-          console.error('Error searching article:', error);
-          errorDiv.textContent = 'Error searching for article. Please try again.';
+          console.error("Error searching article:", error);
+          loading.style.display = "none"; // Hide loading
+          errorDiv.textContent =
+            "Error searching for article. Please try again.";
         }
       }
     </script>

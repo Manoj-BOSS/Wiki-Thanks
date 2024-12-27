@@ -115,36 +115,39 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script>
+      let currentArticle = '';
+
       function createContributorCard(contributor) {
         const card = document.createElement("div");
         card.className = "col-md-6";
-
+        
         // Format the date to GMT
         const date = new Date(contributor.timestamp);
         const gmtTime = date.toLocaleString("en-US", {
-          timeZone: "GMT",
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-          timeZoneName: "short",
+            timeZone: "GMT",
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            timeZoneName: "short",
         });
+
+        // URL encode the username for the avatar
+        const encodedUsername = encodeURIComponent(contributor.user);
+        const avatarUrl = `https://ui-avatars.com/api/?name=${encodedUsername}&background=random&size=60&bold=true&format=svg`;
 
         card.innerHTML = `
             <div class="contributor-card p-3">
                 <div class="d-flex align-items-center gap-3">
-                    <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      contributor.user
-                    )}&background=random" 
-                         alt="${contributor.user}" class="avatar">
+                    <img src="${avatarUrl}" alt="${contributor.user}" class="avatar">
                     <div class="flex-grow-1">
-                        <h5 class="mb-1">${contributor.user}</h5>
-                        <div class="contributor-details" id="details-${contributor.user.replace(
-                          /\s+/g,
-                          "-"
-                        )}" style="display: none;">
+                        <a href="/contributor/${encodeURIComponent(currentArticle)}/${encodedUsername}" 
+                           class="text-decoration-none">
+                            <h5 class="mb-1">${contributor.user}</h5>
+                        </a>
+                        <div class="contributor-details" id="details-${contributor.user.replace(/\s+/g, "-")}" style="display: none;">
                             <p class="mb-1 text-muted small">
                                 <i class="fas fa-comment-alt me-2"></i>${
                                   contributor.comment || "No comment available"
@@ -543,6 +546,10 @@
           errorDiv.textContent = "Please enter an article title";
           return;
         }
+
+        // Set the current article title
+        currentArticle = articleTitle;
+        
         loading.style.display = "block";
         errorDiv.textContent = "";
         document.getElementById("contributors-list").innerHTML = "";

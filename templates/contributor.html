@@ -40,19 +40,53 @@
                 changes.forEach(change => {
                     const changeCard = document.createElement('div');
                     changeCard.className = 'col-12';
+                    
+                    // Format the date
+                    const date = new Date(change.timestamp);
+                    const formattedDate = date.toLocaleString("en-US", {
+                        timeZone: "GMT",
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        timeZoneName: "short"
+                    });
+
                     changeCard.innerHTML = `
                         <div class="change-card">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h5>${new Date(change.timestamp).toLocaleString()}</h5>
-                                    <p class="text-muted">${change.comment || 'No comment provided'}</p>
+                            <div class="change-header">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h5 class="mb-1">${formattedDate}</h5>
+                                        <p class="text-muted mb-0">${change.comment || 'No comment provided'}</p>
+                                    </div>
+                                    <span class="badge bg-${change.sizediff > 0 ? 'success' : 'danger'}">
+                                        ${change.sizediff > 0 ? '+' : ''}${change.sizediff} bytes
+                                    </span>
                                 </div>
-                                <span class="badge bg-${change.sizediff > 0 ? 'success' : 'danger'}">
-                                    ${change.sizediff > 0 ? '+' : ''}${change.sizediff} bytes
-                                </span>
                             </div>
-                            <div class="diff-view">
-                                ${formatDiff(change.diff)}
+                            <div class="diff-container">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="diff-panel">
+                                            <h6 class="text-muted mb-2">Previous Version</h6>
+                                            <div class="diff-content prev-content">
+                                                ${change.diff_html ? 
+                                                    change.diff_html : 
+                                                    (change.before || 'Previous content not available')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="diff-panel">
+                                            <h6 class="text-muted mb-2">Current Version</h6>
+                                            <div class="diff-content curr-content">
+                                                ${change.after || 'Current content not available'}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `;
@@ -61,18 +95,6 @@
             } catch (error) {
                 console.error('Error loading changes:', error);
             }
-        }
-
-        function formatDiff(diff) {
-            // Simple diff formatting - you might want to enhance this
-            return diff.split('\n').map(line => {
-                if (line.startsWith('+')) {
-                    return `<span class="diff-added">${line}</span>`;
-                } else if (line.startsWith('-')) {
-                    return `<span class="diff-removed">${line}</span>`;
-                }
-                return line;
-            }).join('<br>');
         }
 
         document.addEventListener('DOMContentLoaded', loadContributorChanges);

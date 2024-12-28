@@ -49,7 +49,7 @@ class WikiAPI:
             "format": "json",
             "prop": "revisions",
             "titles": page_title,
-            "rvprop": "user|timestamp|comment|size|ids",
+            "rvprop": "user|timestamp|comment|size|ids|content",
             "rvlimit": "50",
             "rvuser": username,
             "origin": "*"
@@ -69,12 +69,52 @@ class WikiAPI:
             
             user_changes = []
             for rev in revisions:
-                if rev["user"] == username:
+                # Get the diff for this revision
+                diff_params = {
+                    "action": "compare",
+                    "format": "json",
+                    "fromrev": rev["revid"],
+                    "torelative": "prev",
+                    "prop": "diff|ids|title|content",
+                    "origin": "*"
+                }
+                
+                try:
+                    # Get the current revision content
+                    current_params = {
+                        "action": "query",
+                        "format": "json",
+                        "prop": "revisions",
+                        "revids": rev["revid"],
+                        "rvprop": "content|ids",
+                        "origin": "*"
+                    }
+                    
+                    diff_response = requests.get(self.base_url, params=diff_params, headers=self.headers)
+                    current_response = requests.get(self.base_url, params=current_params, headers=self.headers)
+                    
+                    diff_data = diff_response.json()
+                    current_data = current_response.json()
+                    
+                    # Get current content from the revision
+                    current_content = ""
+                    if "query" in current_data and "pages" in current_data["query"]:
+                        for page in current_data["query"]["pages"].values():
+                            if "revisions" in page and len(page["revisions"]) > 0:
+                                current_content = page["revisions"][0].get("*", "")
+                    
                     user_changes.append({
                         "timestamp": rev["timestamp"],
                         "comment": rev.get("comment", ""),
                         "sizediff": rev.get("size", 0),
-                        "diff": "Sample diff text"
+                        "revid": rev["revid"],
+                        "before": diff_data.get("compare", {}).get("fromtext", "Previous content not available"),
+                        "after": current_content or "Content not available",
+                        "diff_html": diff_data.get("compare", {}).get("*", "")
                     })
+                except Exception as e:
+                    print(f"Error fetching diff: {e}")
+                    continue
+                
             return user_changes
         return []

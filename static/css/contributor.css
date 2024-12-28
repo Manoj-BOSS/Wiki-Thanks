@@ -38,20 +38,24 @@
     position: fixed;
     top: 20px;
     left: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 2px solid #3498db;
-    color: #2c3e50;
-    padding: 8px 20px;
-    border-radius: 8px;
+    color: #ffffff;
     text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
     z-index: 1000;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    background: none;
+    border: none;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .back-button:hover {
-    background: #3498db;
-    color: white;
-    transform: translateY(-2px);
+    transform: scale(1.1);
+    color: #ffffff;
 }
 
 .contributor-header {
@@ -113,7 +117,19 @@
 }
 
 .change-header {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 15px;
     margin-bottom: 15px;
+}
+
+.change-header h5,
+.change-header p,
+.change-header .text-muted {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.timestamp, .edit-comment {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }

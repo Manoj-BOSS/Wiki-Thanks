@@ -58,8 +58,8 @@
                             <div class="change-header">
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div>
-                                        <h5 class="mb-1">${formattedDate}</h5>
-                                        <p class="text-muted mb-0">${change.comment || 'No comment provided'}</p>
+                                        <h5 class="mb-1" style="color: #004080 !important; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">${formattedDate}</h5>
+                                        <p class="text-muted mb-0" style="color: #004080 !important; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">${change.comment || 'No comment provided'}</p>
                                     </div>
                                     <span class="badge bg-${change.sizediff > 0 ? 'success' : 'danger'}">
                                         ${change.sizediff > 0 ? '+' : ''}${change.sizediff} bytes
@@ -70,7 +70,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="diff-panel">
-                                            <h6 class="text-muted mb-2">Previous Version</h6>
+                                            <h6 class="text-muted mb-2" style="color: white !important; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.5);">Previous Version</h6>
                                             <div class="diff-content prev-content">
                                                 ${change.diff_html ? 
                                                     change.diff_html : 
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="diff-panel">
-                                            <h6 class="text-muted mb-2">Current Version</h6>
+                                            <h6 class="text-muted mb-2" style="color: white !important; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 4px rgba(0,0,0,0.5);">Current Version</h6>
                                             <div class="diff-content curr-content">
                                                 ${change.after || 'Current content not available'}
                                             </div>

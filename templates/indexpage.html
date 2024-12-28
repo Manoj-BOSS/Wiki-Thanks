@@ -312,6 +312,13 @@
       function displayContributors(data) {
         const container = document.getElementById("contributors-list");
         container.innerHTML = "";
+        
+        // Remove any existing pagination container
+        const existingPagination = document.querySelector('.pagination-container');
+        if (existingPagination) {
+            existingPagination.remove();
+        }
+
         const pages = data.query.pages;
         const pageId = Object.keys(pages)[0];
         const allRevisions = pages[pageId].revisions;

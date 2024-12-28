@@ -341,23 +341,78 @@
         );
         document.getElementById("last-update").textContent = hoursSinceLastEdit;
 
-        // Display latest revisions
-        const latestRevisions = allRevisions.slice(0, 50);
-        latestRevisions.forEach((revision) => {
-          container.appendChild(
-            createContributorCard({
-              user: revision.user,
-              timestamp: revision.timestamp,
-              comment: revision.comment,
-              size: revision.size,
-              revid: revision.revid,
-            })
-          );
+        // Pagination setup
+        const itemsPerPage = 10;
+        const totalPages = Math.ceil(allRevisions.length / itemsPerPage);
+        let currentPage = 1;
+
+        function displayPage(pageNum) {
+          container.innerHTML = "";
+          const start = (pageNum - 1) * itemsPerPage;
+          const end = start + itemsPerPage;
+          const pageRevisions = allRevisions.slice(start, end);
+
+          pageRevisions.forEach(revision => {
+            container.appendChild(
+              createContributorCard({
+                user: revision.user,
+                timestamp: revision.timestamp,
+                comment: revision.comment,
+                size: revision.size,
+                revid: revision.revid,
+              })
+            );
+          });
+
+          // Update pagination UI
+          updatePaginationUI(pageNum, totalPages);
+        }
+
+        // Add pagination controls
+        const paginationHtml = `
+          <div class="pagination-container mt-4 mb-3 d-flex justify-content-center" data-aos="fade-up">
+            <button class="btn btn-outline-light me-2" id="prevPage" disabled>
+              <i class="fas fa-chevron-left me-1"></i> Previous
+            </button>
+            <span class="pagination-info mx-3 d-flex align-items-center text-white">
+              Page <span id="currentPage" class="mx-2">1</span> of <span id="totalPages" class="ms-2">${totalPages}</span>
+            </span>
+            <button class="btn btn-outline-light ms-2" id="nextPage">
+              Next <i class="fas fa-chevron-right ms-1"></i>
+            </button>
+          </div>
+        `;
+
+        // Add pagination controls after the contributors list
+        container.insertAdjacentHTML('afterend', paginationHtml);
+
+        // Add event listeners for pagination
+        document.getElementById('prevPage').addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            displayPage(currentPage);
+          }
         });
 
-        // Set initial sort button text
-        document.querySelector(".dropdown-toggle").textContent =
-          "Sort By Date (Newest First)";
+        document.getElementById('nextPage').addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            displayPage(currentPage);
+          }
+        });
+
+        function updatePaginationUI(currentPage, totalPages) {
+          const prevBtn = document.getElementById('prevPage');
+          const nextBtn = document.getElementById('nextPage');
+          document.getElementById('currentPage').textContent = currentPage;
+          document.getElementById('totalPages').textContent = totalPages;
+
+          prevBtn.disabled = currentPage === 1;
+          nextBtn.disabled = currentPage === totalPages;
+        }
+
+        // Display first page
+        displayPage(1);
       }
       function loadMoreRevisions(continueToken) {
         const params = {

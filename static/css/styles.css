@@ -362,3 +362,39 @@ h4.text-muted {
 .loading-toast.show {
   animation: slideIn 0.2s ease-out forwards;
 }
+
+/* Pagination Styles */
+.pagination-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-container .btn {
+    transition: all 0.3s ease;
+    border-width: 2px;
+    font-weight: 500;
+    padding: 8px 20px;
+}
+
+.pagination-container .btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pagination-container .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-weight: 500;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#currentPage, #totalPages {
+    font-weight: 700;
+    font-size: 1.1em;
+}
